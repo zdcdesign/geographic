@@ -304,4 +304,10 @@
     WHERE id=#{id}
 
   </select>
+
+  <select id="findUserPower" resultType="com.geographic.entity.TbPower">
+    SELECT d.id,d.powername,d.code,d.description,d.powerurl,d.priority,d.pid FROM tb_user a,tb_role b, user_role c, tb_power d,role_power e
+   WHERE a.id=c.user_id AND c.role_id=b.id  AND b.id=e.role_id AND e.power_id=d.id AND a.id=#{id}
+
+  </select>
 </mapper>

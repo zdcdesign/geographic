@@ -1,5 +1,6 @@
 package com.geographic.service;
 
+import com.geographic.entity.TbPower;
 import com.geographic.entity.TbUser;
 
 import java.util.List;
@@ -9,10 +10,11 @@ import java.util.List;
  */
 public interface TbUserService {
     List<TbUser> queryUser();
-    TbUser queryUserById(int id);
+    TbUser queryUserById(Long id);
     TbUser queryUserByName(String username);
     int insertUser(TbUser tbUser);
     int updateUser(TbUser tbUser);
-    int deleteUser(int id);
-    TbUser findById(int id);
+    int deleteUser(Long id);
+    TbUser findById(Long id);
+    List<TbPower> findUserPower(Long id);
 }

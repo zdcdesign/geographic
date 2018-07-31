@@ -1,9 +1,12 @@
 package com.geographic.shiro;
 
+import com.geographic.entity.TbPower;
+import com.geographic.entity.TbUser;
+import com.geographic.service.TbUserService;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.boot.SpringApplication;
-import com.geographic.entity.User;
+
 import com.geographic.service.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
@@ -15,13 +18,18 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 /**
  * Created by zhoudachao on 2018/7/24.
  */
 public class UserRealm extends AuthorizingRealm {
 
+   /* @Autowired
+    private UserService userService;*/
+
     @Autowired
-    private UserService userService;
+    private TbUserService tbUserService;
     /**
      * 执行授权逻辑
      *
@@ -41,11 +49,18 @@ public class UserRealm extends AuthorizingRealm {
         //获取当前登录用户
         System.out.println("获取当前用户");
         Subject subject = SecurityUtils.getSubject();
-        User user = (User) subject.getPrincipal();
-        System.out.println(user.getUserName());
-        User dbUser = userService.findById(user.getUserId());
-        System.out.println(dbUser.getUserName()+"的权限代码"+dbUser.getPerms());
-        info.addStringPermission(dbUser.getPerms());
+        TbUser tbUser = (TbUser) subject.getPrincipal();
+        System.out.println(tbUser.getUsername());
+        TbUser dbUser = tbUserService.findById(tbUser.getId());
+        //根据用户id查询相关的权限代码
+        List<TbPower> powerList = tbUserService.findUserPower(tbUser.getId());
+        //System.out.println(dbUser.getUsername()+"的权限代码"+);
+        //把权限代码然后相应的过滤器中
+        for(TbPower power : powerList ){
+            System.out.println(power.getCode());
+            info.addStringPermission(power.getCode());
+        }
+        //info.addStringPermission(dbUser.getPerms());
 
 
         return info;
@@ -62,17 +77,17 @@ public class UserRealm extends AuthorizingRealm {
         //1.判断用户名
         UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
 
-        User user = userService.queryUserByName(token.getUsername());
-        System.out.println(user.getUserName());
-        if (user==null){
+        TbUser tbUser = tbUserService.queryUserByName(token.getUsername());
+        System.out.println(tbUser.getUsername());
+        if (tbUser==null){
             //用户名不存在
             return  null;//shiro底层会抛出UnknownAccountException
         }
         //2.判断密码
-        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(user,user.getUserPassword(),"");
+        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(tbUser,tbUser.getPassword(),"");
 
         //加盐
-        authenticationInfo.setCredentialsSalt(ByteSource.Util.bytes(user.getUserName()));
+        authenticationInfo.setCredentialsSalt(ByteSource.Util.bytes(tbUser.getUsername()));
 
         return authenticationInfo;
 

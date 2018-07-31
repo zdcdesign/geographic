@@ -1,5 +1,6 @@
 package com.geographic.dao;
 
+import com.geographic.entity.TbPower;
 import com.geographic.entity.TbUser;
 import com.geographic.entity.TbUserExample;
 import java.util.List;
@@ -32,7 +33,7 @@ public interface TbUserMapper {
 
     List<TbUser> queryUser();
 
-    TbUser queryUserById(int id);
+    TbUser queryUserById(Long id);
 
     TbUser queryUserByName(String username);
 
@@ -40,8 +41,9 @@ public interface TbUserMapper {
 
     int updateUser(TbUser tbUser);
 
-    int deleteUser(int id);
+    int deleteUser(Long id);
 
-    TbUser findById(int id);
+    TbUser findById(Long id);
 
+    List<TbPower> findUserPower(Long id);
 }

@@ -3,6 +3,7 @@ package com.geographic.web;
 import com.geographic.entity.AnimalForm;
 import com.geographic.entity.TbUser;
 import com.geographic.entity.User;
+import com.geographic.service.TbUserService;
 import com.geographic.service.UserService;
 
 
@@ -32,10 +33,13 @@ import java.util.Map;
 @Controller
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+   /* @Autowired
+    private UserService userService;*/
 
-    @RequestMapping(value = "/listUser",method = RequestMethod.GET)
+    @Autowired
+    private TbUserService tbUserService;
+
+    /*@RequestMapping(value = "/listUser",method = RequestMethod.GET)
     private Map<String,Object> listUser(){
         Map<String,Object> modelMap = new HashMap<String,Object>();
         List<User>  list = userService.getUserList();
@@ -71,7 +75,7 @@ public class UserController {
         Map<String,Object> modelMap = new HashMap<String,Object>();
         modelMap.put("success",userService.deleteUser(userId));
         return modelMap;
-    }
+    }*/
 
     /**
      * 测试thymeleaf
@@ -151,24 +155,20 @@ public class UserController {
         System.out.println("密码：" + tbUser.getPassword());
         System.out.println("电话：" + tbUser.getTelephone());
 
-        return "redirect:/toLogin";
+        try {
+            int i = tbUserService.insertUser(tbUser);
+            if (i==1)
+            System.out.println("用户注册成功" );
+            return "redirect:/toLogin";
+        }catch (Exception e){
+            //注册失败
+            model.addAttribute("msg","服务出错请重试");
+            return "redirect:/form";
+        }
+
+
 
     }
 
-    /*@RequestMapping(path = "/list", method = RequestMethod.GET)
-    public ModelAndView showZooList(){
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("zoolist");
-        mav.addObject("animalForm", new AnimalForm());
-        return mav;
-    }
 
-
-    @RequestMapping(path = "/list", params = {"save"}, method = RequestMethod.POST)
-    public String doAdd(AnimalForm form) {
-        System.out.println("动物名：" + form.getOname());
-        System.out.println("数量：" + form.getOcount());
-        System.out.println("备注：" + form.getMemo());
-        return "zoolist";
-    }*/
     }

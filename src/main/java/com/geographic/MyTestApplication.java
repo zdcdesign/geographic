@@ -13,7 +13,7 @@ public class MyTestApplication {
 	public static void main(String[] args) {
 
 		SpringApplication.run(MyTestApplication.class, args);
-		/*Md5Hash md5Hash = new Md5Hash("1234567","dongzhu");
-		System.out.println(md5Hash.toString());*/
+		Md5Hash md5Hash = new Md5Hash("12345678","dachao");
+		System.out.println(md5Hash.toString());
 	}
 }

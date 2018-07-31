@@ -1,5 +1,7 @@
 package com.geographic.dao;
 
+import com.geographic.entity.TbPower;
+import com.geographic.entity.TbUser;
 import com.geographic.entity.User;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -23,6 +25,9 @@ public class UserDaoTest {
     @Autowired
     private UserDao userDao;
 
+    @Autowired
+    private TbUserMapper tbUserMapper;
+
     @Test
     @Ignore
     public void queryUser() throws Exception {
@@ -31,6 +36,7 @@ public class UserDaoTest {
     }
 
     @Test
+    @Ignore
     public void queryUserById() throws Exception {
       User user = userDao.queryUserById(1);
       assertEquals("dachao",user.getUserName());
@@ -76,5 +82,23 @@ public class UserDaoTest {
     public void findById() throws Exception {
         User user = userDao.queryUserById(2);
         assertEquals("dongzhu",user.getUserName());
+    }
+
+    @Test
+    @Ignore
+    public void insertTbUser() throws Exception {
+        TbUser tbUser = new TbUser();
+        tbUser.setUsername("admindachao");
+        tbUser.setPassword("12345678");
+        tbUser.setUpdated(new Date());
+        tbUser.setCreated(new Date());
+        int effectedNum = tbUserMapper.insert(tbUser);
+        assertEquals(1,effectedNum);
+    }
+
+    @Test
+    public void findUserPower() throws Exception {
+        List<TbPower> powerList=tbUserMapper.findUserPower(1l);
+        assertEquals(2,powerList.size());
     }
 }

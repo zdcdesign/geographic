@@ -55,7 +55,7 @@ public class ShiroConfig {
         filterMap.put("/register","anon");
 
         //拦截所有的资源
-        // filterMap.put("/*","authc");
+         filterMap.put("/*","authc");
 
         //设置未授权提示页面
         shiroFilterFactoryBean.setUnauthorizedUrl("/noAuth");
