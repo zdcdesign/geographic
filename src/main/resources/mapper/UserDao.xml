@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.geographic.dao.UserDao">
+   <select id="queryUser" resultType="com.geographic.entity.User">
+         SELECT user_id,user_name,
+         user_priority,create_time,last_edit_time
+         FROM tb_user
+         ORDER BY user_priority
+         DESC
+   </select>
+
+    <select id="queryUserById" resultType="com.geographic.entity.User">
+        SELECT user_id,user_name,
+        user_priority,create_time,last_edit_time
+        FROM tb_user
+        WHERE user_id=#{userId}
+    </select>
+    <insert id="insertUser" useGeneratedKeys="true" keyProperty="userId"
+            keyColumn="user_id" parameterType="com.geographic.entity.User">
+    INSERT INTO
+    tb_user(user_name,user_priority,create_time,last_edit_time)
+    VALUES
+    (#{userName},#{userPriority},#{createTime},#{lastEditTime})
+    </insert>
+    <update id="updateUser" parameterType="com.geographic.entity.User">
+        UPDATE tb_user
+        <set>
+            <if test="userName!=null">user_name=#{userName},</if>
+            <if test="userPriority!=null">user_priority=#{userPriority},</if>
+            <if test="lastEditTime!=null">last_edit_time=#{lastEditTime}</if>
+        </set>
+        where user_id=#{userId}
+    </update>
+
+    <delete id="deleteUser">
+        DELETE FROM tb_user
+        WHERE user_id=#{userId}
+    </delete>
+
+    <select id="queryUserByName"  resultType="com.geographic.entity.User">
+        SELECT user_id,user_name,user_password,
+        user_priority,create_time,last_edit_time
+        FROM tb_user
+        WHERE user_name=#{userName}
+    </select>
+    <select id="findById" resultType="com.geographic.entity.User">
+         SELECT user_id,user_name,user_password,perms,
+        user_priority,create_time,last_edit_time
+        FROM tb_user
+        WHERE user_id=#{userId}
+
+    </select>
+
+</mapper>

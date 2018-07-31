@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.geographic.dao.TbLayerMapper" >
+  <resultMap id="BaseResultMap" type="com.geographic.entity.TbLayer" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="layername" property="layername" jdbcType="VARCHAR" />
+    <result column="simplename" property="simplename" jdbcType="VARCHAR" />
+    <result column="belong_year" property="belongYear" jdbcType="DATE" />
+    <result column="service_url" property="serviceUrl" jdbcType="VARCHAR" />
+    <result column="service_topic" property="serviceTopic" jdbcType="BIGINT" />
+    <result column="layer_serial" property="layerSerial" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="BIT" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="updated" property="updated" jdbcType="TIMESTAMP" />
+    <result column="show_flag" property="showFlag" jdbcType="BIT" />
+    <result column="permissions_value" property="permissionsValue" jdbcType="INTEGER" />
+    <result column="permissions_code" property="permissionsCode" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, layername, simplename, belong_year, service_url, service_topic, layer_serial, 
+    type, address, created, updated, show_flag, permissions_value, permissions_code, 
+    remark
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.geographic.entity.TbLayerExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_layer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_layer
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tb_layer
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.geographic.entity.TbLayerExample" >
+    delete from tb_layer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.geographic.entity.TbLayer" >
+    insert into tb_layer (id, layername, simplename, 
+      belong_year, service_url, service_topic, 
+      layer_serial, type, address, 
+      created, updated, show_flag, 
+      permissions_value, permissions_code, remark
+      )
+    values (#{id,jdbcType=BIGINT}, #{layername,jdbcType=VARCHAR}, #{simplename,jdbcType=VARCHAR}, 
+      #{belongYear,jdbcType=DATE}, #{serviceUrl,jdbcType=VARCHAR}, #{serviceTopic,jdbcType=BIGINT}, 
+      #{layerSerial,jdbcType=INTEGER}, #{type,jdbcType=BIT}, #{address,jdbcType=VARCHAR}, 
+      #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}, #{showFlag,jdbcType=BIT}, 
+      #{permissionsValue,jdbcType=INTEGER}, #{permissionsCode,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.geographic.entity.TbLayer" >
+    insert into tb_layer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="layername != null" >
+        layername,
+      </if>
+      <if test="simplename != null" >
+        simplename,
+      </if>
+      <if test="belongYear != null" >
+        belong_year,
+      </if>
+      <if test="serviceUrl != null" >
+        service_url,
+      </if>
+      <if test="serviceTopic != null" >
+        service_topic,
+      </if>
+      <if test="layerSerial != null" >
+        layer_serial,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+      <if test="updated != null" >
+        updated,
+      </if>
+      <if test="showFlag != null" >
+        show_flag,
+      </if>
+      <if test="permissionsValue != null" >
+        permissions_value,
+      </if>
+      <if test="permissionsCode != null" >
+        permissions_code,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="layername != null" >
+        #{layername,jdbcType=VARCHAR},
+      </if>
+      <if test="simplename != null" >
+        #{simplename,jdbcType=VARCHAR},
+      </if>
+      <if test="belongYear != null" >
+        #{belongYear,jdbcType=DATE},
+      </if>
+      <if test="serviceUrl != null" >
+        #{serviceUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceTopic != null" >
+        #{serviceTopic,jdbcType=BIGINT},
+      </if>
+      <if test="layerSerial != null" >
+        #{layerSerial,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=BIT},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null" >
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="showFlag != null" >
+        #{showFlag,jdbcType=BIT},
+      </if>
+      <if test="permissionsValue != null" >
+        #{permissionsValue,jdbcType=INTEGER},
+      </if>
+      <if test="permissionsCode != null" >
+        #{permissionsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.geographic.entity.TbLayerExample" resultType="java.lang.Integer" >
+    select count(*) from tb_layer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tb_layer
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.layername != null" >
+        layername = #{record.layername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.simplename != null" >
+        simplename = #{record.simplename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.belongYear != null" >
+        belong_year = #{record.belongYear,jdbcType=DATE},
+      </if>
+      <if test="record.serviceUrl != null" >
+        service_url = #{record.serviceUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.serviceTopic != null" >
+        service_topic = #{record.serviceTopic,jdbcType=BIGINT},
+      </if>
+      <if test="record.layerSerial != null" >
+        layer_serial = #{record.layerSerial,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=BIT},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.created != null" >
+        created = #{record.created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updated != null" >
+        updated = #{record.updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.showFlag != null" >
+        show_flag = #{record.showFlag,jdbcType=BIT},
+      </if>
+      <if test="record.permissionsValue != null" >
+        permissions_value = #{record.permissionsValue,jdbcType=INTEGER},
+      </if>
+      <if test="record.permissionsCode != null" >
+        permissions_code = #{record.permissionsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tb_layer
+    set id = #{record.id,jdbcType=BIGINT},
+      layername = #{record.layername,jdbcType=VARCHAR},
+      simplename = #{record.simplename,jdbcType=VARCHAR},
+      belong_year = #{record.belongYear,jdbcType=DATE},
+      service_url = #{record.serviceUrl,jdbcType=VARCHAR},
+      service_topic = #{record.serviceTopic,jdbcType=BIGINT},
+      layer_serial = #{record.layerSerial,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=BIT},
+      address = #{record.address,jdbcType=VARCHAR},
+      created = #{record.created,jdbcType=TIMESTAMP},
+      updated = #{record.updated,jdbcType=TIMESTAMP},
+      show_flag = #{record.showFlag,jdbcType=BIT},
+      permissions_value = #{record.permissionsValue,jdbcType=INTEGER},
+      permissions_code = #{record.permissionsCode,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.geographic.entity.TbLayer" >
+    update tb_layer
+    <set >
+      <if test="layername != null" >
+        layername = #{layername,jdbcType=VARCHAR},
+      </if>
+      <if test="simplename != null" >
+        simplename = #{simplename,jdbcType=VARCHAR},
+      </if>
+      <if test="belongYear != null" >
+        belong_year = #{belongYear,jdbcType=DATE},
+      </if>
+      <if test="serviceUrl != null" >
+        service_url = #{serviceUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceTopic != null" >
+        service_topic = #{serviceTopic,jdbcType=BIGINT},
+      </if>
+      <if test="layerSerial != null" >
+        layer_serial = #{layerSerial,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=BIT},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null" >
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="showFlag != null" >
+        show_flag = #{showFlag,jdbcType=BIT},
+      </if>
+      <if test="permissionsValue != null" >
+        permissions_value = #{permissionsValue,jdbcType=INTEGER},
+      </if>
+      <if test="permissionsCode != null" >
+        permissions_code = #{permissionsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.geographic.entity.TbLayer" >
+    update tb_layer
+    set layername = #{layername,jdbcType=VARCHAR},
+      simplename = #{simplename,jdbcType=VARCHAR},
+      belong_year = #{belongYear,jdbcType=DATE},
+      service_url = #{serviceUrl,jdbcType=VARCHAR},
+      service_topic = #{serviceTopic,jdbcType=BIGINT},
+      layer_serial = #{layerSerial,jdbcType=INTEGER},
+      type = #{type,jdbcType=BIT},
+      address = #{address,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      show_flag = #{showFlag,jdbcType=BIT},
+      permissions_value = #{permissionsValue,jdbcType=INTEGER},
+      permissions_code = #{permissionsCode,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
